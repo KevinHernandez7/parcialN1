@@ -9,10 +9,17 @@
     <title>Texas Holdem </title>
     <link rel="stylesheet" href="css/estilos.css">
     <script type="text/javascript" src="script.js"></script>
-    
+
   </head>
   <body onload="probar()">
-
+    <div class="mesa">
+        <div id="vMenu" class="vista">
+            <h1 class="menuItem" >Menu</h1>
+            <label for="inpJ" class="menuItem">Jugadores: </label>
+            <input id="inpJ" type="number" class="menuItem" min="2" max="10" value="2" >
+            <button type="button" onclick="iniciar()"  class="menuItem">Iniciar</button>
+        </div>
+    </div>
 
 
 

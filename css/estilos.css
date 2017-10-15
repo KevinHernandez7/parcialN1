@@ -1,0 +1,44 @@
+body{
+  color: #E8E8E7;
+}
+
+.menuItem{
+  border: 0;
+  font-size: 2em;
+  color: #E8E8E7;
+  background-color:transparent;
+}
+
+.mesa {
+  margin: 0 auto 0 auto;
+  width: 900px;
+  height: 510px;
+  background: #23D280;
+  border-radius: 35%;
+  border-style: solid;
+  border-width: thick;
+  border-color:#D7DAE0;
+  box-shadow: inset 0px 0px 70px rgba(0,0,0,0.5);
+  -webkit-box-shadow: inset 0px 0px 70px rgba(0,0,0,0.5);
+  position: relative
+}
+
+#inpJ{
+  background-color: rgba(111, 255, 159, 0.5);
+}
+
+.vista{
+  display: none;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+
+#vMenu{
+  padding-top: 150px;
+}
+
+li {
+    list-style-type: none;
+}
