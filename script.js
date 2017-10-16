@@ -1,5 +1,7 @@
 var baraja;
 var jugadores;
+var vMenu;
+var vJuego;
 
 function llenarBaraja() {
 //este arreglo representa la disponibilidad de cartas para repartir
@@ -50,3 +52,22 @@ function probar(){
     }
     
 }
+// Esta función recibe un elemento y lo oculta.
+function ocultar(elemento) {
+  elemento.style.display = "none";
+  /* style.display:establece la propiedad de visualización del elemento al valor predeterminado, 
+  es decir que elimina la visualización y luego la reestablece en linea tomando en cuenta 
+  que esto es establecido en el CSS*/
+} 
+// Está función recibe el elemento y lo oculta
+function mostrar(elemento) {
+  elemento.style.display = "block";         
+}
+function construir() {
+  vMenu = document.getElementById('vMenu');
+  vJuego = document.getElementById('vJuego');
+ /* document.getElementById: lo utlilizamos para obtener información de la vista del menú y del juego
+ y poder mostrarlo.*/
+  mostrar(vMenu);
+}
+

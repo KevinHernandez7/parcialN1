@@ -14,13 +14,21 @@
   <body onload="probar()">
     <div class="mesa">
         <div id="vMenu" class="vista">
-            <h1 class="menuItem" >Menu</h1>
+            <h1 class="menuItem" >Men&uacute;</h1>
             <label for="inpJ" class="menuItem">Jugadores: </label>
             <input id="inpJ" type="number" class="menuItem" min="2" max="10" value="2" >
             <button type="button" onclick="iniciar()"  class="menuItem">Iniciar</button>
         </div>
+	<!--Aquí se crea la vista que aparece al dar click al boton iniciar-->
+        <div id="vJuego" class="vista">
+            <ul id="ls">
+               <li><div id="info" class="info"></div></li>
+            </ul>
+          <div id="centro" >
+            <p id="dsp"></p>
+          </div>
+       </div> <!--cierre de vJuego-->
     </div>
-
 
 
 
