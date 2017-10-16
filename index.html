@@ -6,12 +6,11 @@
     <meta name="description" content="juego de poker">
     <meta name="keywords" content="juego de poker">
     <meta name="author" content="kevinHernande7, brahhms">
-    <title>Texas Holdem </title>
     <link rel="stylesheet" href="css/estilos.css">
-    <script type="text/javascript" src="script.js"></script>
+    <title>Texas Holdem </title>
 
   </head>
-  <body onload="probar()">
+  <body onload="construir()">
     <div class="mesa">
         <div id="vMenu" class="vista">
             <h1 class="menuItem" >Men&uacute;</h1>
@@ -19,6 +18,7 @@
             <input id="inpJ" type="number" class="menuItem" min="2" max="10" value="2" >
             <button type="button" onclick="iniciar()"  class="menuItem">Iniciar</button>
         </div>
+        
 	<!--Aquí se crea la vista que aparece al dar click al boton iniciar-->
         <div id="vJuego" class="vista">
             <ul id="ls">
@@ -37,6 +37,6 @@
 
 
 
-
+     <script type="text/javascript" src="script.js"></script>
   </body>
 </html>
