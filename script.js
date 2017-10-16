@@ -8,7 +8,7 @@ var vJuego;
 function inputValidar( ) {
 
 var numero=document.getElementById('inpJ').value
-  if (numero<=10) {
+  if (numero<=10&&numero>=2) {
   }else {
     alert("Debe introcucir numeros del 2 al 10")
     window.location.reload();
