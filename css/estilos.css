@@ -9,20 +9,6 @@ body{
   background-color:transparent;
 }
 
-.mesa {
-  margin: 0 auto 0 auto;
-  width: 900px;
-  height: 510px;
-  background: #23D280;
-  border-radius: 35%;
-  border-style: solid;
-  border-width: thick;
-  border-color:#D7DAE0;
-  box-shadow: inset 0px 0px 70px rgba(0,0,0,0.5);
-  -webkit-box-shadow: inset 0px 0px 70px rgba(0,0,0,0.5);
-  position: relative
-}
-
 #inpJ{
   background-color: rgba(111, 255, 159, 0.5);
 }
@@ -39,6 +25,35 @@ body{
   padding-top: 150px;
 }
 
+
+img{
+  height: 60px;
+  width: 40px;
+  border-radius: 5px;
+}
+
+.mesa {
+  margin: 0 auto 0 auto;
+  width: 900px;
+  height: 510px;
+  background: #23D280;
+  border-radius: 35%;
+  border-style: solid;
+  border-width: thick;
+  border-color:#D7DAE0;
+  box-shadow: inset 0px 0px 70px rgba(0,0,0,0.5);
+  -webkit-box-shadow: inset 0px 0px 70px rgba(0,0,0,0.5);
+  position: relative
+}
+
 li {
     list-style-type: none;
+}
+
+.mesa li {
+  position: absolute;
+  width: 100px;
+  height: 110px;
+  text-align: center;
+  top: 0;
 }

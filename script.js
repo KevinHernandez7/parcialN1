@@ -13,7 +13,6 @@ function llenarBaraja() {
   return aBaraja;
 }
 
-
 function llenarJugadores(n) {
   var aJugadores = new Array();
   for (var i = 0; i < n; i++) {
@@ -42,16 +41,61 @@ function sacarCarta() {
   return carta;
 }
  
-//funcion para comprobar el funcionamiento de los metodos
-function probar(){
-    baraja = llenarBaraja();
-    jugadores = llenarJugadores(3); //prueba para tres jugadores
-    
-    for(var i = 0 ; i < jugadores.length; i++){
-        document.body.innerHTML += jugadores[i].carta1 + "," + jugadores[i].carta2+"</BR>"
-    }
-    
+
+function construir() {
+  vMenu = document.getElementById('vMenu');
+  vJuego = document.getElementById('vJuego');
+  baraja = llenarBaraja();
+ /* document.getElementById: lo utlilizamos para obtener información de la vista del menú y del juego
+ y poder mostrarlo.*/
+  mostrar(vMenu);
 }
+
+function iniciar() {
+  ocultar(vMenu);
+  var n = parseInt(document.getElementById('inpJ').value);
+  jugadores = llenarJugadores(n);
+  repartir(n);
+  mostrar(vJuego);
+}
+
+function repartir(n) {
+  var radianes = Math.PI;     //valor inicial
+  var h = 2*Math.PI/n;    //distancia angular entre elemntos;
+  var ls = document.getElementById('ls');
+
+  for (var i = 0; i < n; i++) {
+        //asigna las imagenes de las cartas
+    var img1 = document.createElement("img");
+        img1.setAttribute("src","images/"+jugadores[i].carta1);
+    var img2 = document.createElement("img");
+        img2.setAttribute("src","images/"+jugadores[i].carta2);
+
+    var e = document.createElement('li');
+
+    rotar(e,radianes);
+    posicionarEnCirculo(e,radianes,200,200,0);
+    radianes += h;
+    e.appendChild(img1);
+    e.appendChild(img2);
+    ls.appendChild(e);
+  }
+}
+
+function rotar(o,fRadianes) {
+    o.style.transform = "rotate("+fRadianes+"rad)";   //recibe el objeto a rotar y los grados que se le van a aplicar
+}
+
+function posicionarEnCirculo(o,fRadianes,r,b,a) {
+    var x = Math.ceil(r+r*Math.sin(fRadianes));        //equacion para el atributo top
+    var y = Math.ceil(r-r*Math.cos(fRadianes));        //equacion para el atributo left
+    x += 195*Math.sin(fRadianes);                    //estira en x
+    x+=b;                                       //b desplazamiento en x
+    y+=a;                                       //a desplazamiento en y
+    o.style.left = x+"px";
+    o.style.top = y+"px";
+}
+
 // Esta función recibe un elemento y lo oculta.
 function ocultar(elemento) {
   elemento.style.display = "none";
@@ -63,11 +107,3 @@ function ocultar(elemento) {
 function mostrar(elemento) {
   elemento.style.display = "block";         
 }
-function construir() {
-  vMenu = document.getElementById('vMenu');
-  vJuego = document.getElementById('vJuego');
- /* document.getElementById: lo utlilizamos para obtener información de la vista del menú y del juego
- y poder mostrarlo.*/
-  mostrar(vMenu);
-}
-
