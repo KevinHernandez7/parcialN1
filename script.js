@@ -4,9 +4,21 @@ var vMenu;
 var vJuego;
 
 
+//funcion para validar solo numeros enteros 
+function soloNumeros( evt ){
+if ( window.event ) {
+keyNum = evt.keyCode;
+} else {
+keyNum = evt.which;
+}
+if ( keyNum >= 48 && keyNum <= 57 ) {
+return true;
+} else {
+return false;
+}
+}
 
 function inputValidar( ) {
-
 var numero=document.getElementById('inpJ').value
   if (numero<=10&&numero>=2) {
     iniciar()
