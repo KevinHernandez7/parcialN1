@@ -2,11 +2,13 @@ var baraja;
 var jugadores;
 var vMenu;
 var vJuego;
+var vOpciones;
 
 function construir() {
   construirVistas();
   baraja = llenarBaraja();
   mostrar(vMenu);
+  mostrar(vOpciones);
 }
 
 function llenarBaraja() {
@@ -21,6 +23,7 @@ function llenarBaraja() {
 function construirVistas() {
   vMenu = document.getElementById('vMenu');
   vJuego = document.getElementById('vJuego');
+  vOpciones = document.getElementById('vOpciones')
 }
 
 function Familia(sNombre) {
@@ -89,6 +92,7 @@ function iniciar() {
   jugadores = llenarJugadores(n);
   repartir(n);
   mostrar(vJuego);
+  mostrar(vOpciones);
 }
 
 function repartir(n) {

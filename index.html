@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="description" content="juego de poker">
     <meta name="keywords" content="juego de poker">
-    <meta name="author" content="kevinHernande7, brahhms">
+    <meta name="author" content="kevinHernande7, brahhms,VictoriaCastro">
     <link rel="stylesheet" href="css/estilos.css">
     <title>Texas Holdem </title>
 
@@ -28,9 +28,19 @@
             <p id="dsp"></p>
           </div>
        </div> <!--cierre de vJuego-->
+    
+	  
+	  <!--Opciones de apuesta de juego.-->
+   	   <div id="vOpciones">
+    		<ul class="ulOpciones">
+       		 	<li><input id="inpDinero" type="number" class="menuItem" max="100" min="1"></li>
+        		<li id="apostar" onclick="apostar()" class="menuItem">Apostar</li>
+        		<li id="pasar" onclick="pasar()" class="menuItem" >Pasar</li>
+        		<li id="retirarse" onclick="retirarse()" class="menuItem" >Retirarse</li>
+    		</ul>
+		</div> <!--cierre de vOpciones-->
+		
     </div>
-
-
 
 
 <script type="text/javascript" src="script.js"></script>
