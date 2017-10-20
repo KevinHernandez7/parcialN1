@@ -1,5 +1,87 @@
+
 body{
   color: #E8E8E7;
+  background: #313438;
+  padding: 0;
+}
+
+
+#inpJ{
+  background-color: #584F52;
+}
+
+#vMenu{
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  text-align: center;
+}
+
+.ulOpciones li{
+  display:  inline-block;
+  margin: 3px;
+}
+
+#vOpciones{
+  display: none;
+  text-align: center;
+  background: rgba(0,0,0,0.3);
+  margin: 0;
+  width: 100%;
+}
+
+.ulOpciones input{
+  width: 100px;
+  background-color: #4C4F53;
+}
+
+img{
+  height: 60px;
+  width: 40px;
+  margin: 1px;
+}
+
+
+#centro {
+  color: #efefef;
+  padding-top: 5px;
+  font-size: 2em;
+  position: relative;
+  top: 30%;
+  margin: 0 auto 0 auto;
+  width: 50%;
+  height: 200px;
+  border-radius: 10%;
+  background: rgba(0,0,0,0.05);
+}
+
+.mesa {
+  display: none;
+  background: #4C4F53;
+  margin: 0 auto 0 auto;
+  width: 900px;
+  height: 500px;
+  border-radius: 35%;
+  box-shadow:  0px 0px 70px rgba(0,0,0,0.4);
+  -webkit-box-shadow:  0px 0px 70px rgba(0,0,0,0.4);
+  position: relative;
+  text-align: center;
+}
+
+li {
+    list-style-type: none;
+}
+
+#vJuego li {
+  position: absolute;
+  height: 60px;
+  text-align: center;
+}
+
+
+.info p{
+  position: absolute;
+  color: white;
 }
 
 .menuItem{
@@ -7,53 +89,4 @@ body{
   font-size: 2em;
   color: #E8E8E7;
   background-color:transparent;
-}
-
-#inpJ{
-  background-color: rgba(111, 255, 159, 0.5);
-}
-
-.vista{
-  display: none;
-  height: 100%;
-  width: 100%;
-  text-align: center;
-}
-
-
-#vMenu{
-  padding-top: 150px;
-}
-
-
-img{
-  height: 60px;
-  width: 40px;
-  border-radius: 5px;
-}
-
-.mesa {
-  margin: 0 auto 0 auto;
-  width: 900px;
-  height: 510px;
-  background: #23D280;
-  border-radius: 35%;
-  border-style: solid;
-  border-width: thick;
-  border-color:#D7DAE0;
-  box-shadow: inset 0px 0px 70px rgba(0,0,0,0.5);
-  -webkit-box-shadow: inset 0px 0px 70px rgba(0,0,0,0.5);
-  position: relative
-}
-
-li {
-    list-style-type: none;
-}
-
-.mesa li {
-  position: absolute;
-  width: 100px;
-  height: 110px;
-  text-align: center;
-  top: 0;
 }
