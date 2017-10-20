@@ -295,7 +295,7 @@ function pasar() {
   verificarRonda();
   actualizarJugadores();
   verificarManoGanadora();
-  console.log(jugadores[k].mano.obtenerCartaAlta());
+  console.log(jugadores[k].mano.obtenerCartaAlta()+" ,"+jugadores[k].mano.nombre);
 }
 
 function verificarRonda() {
@@ -354,22 +354,21 @@ function verificarManoGanadora() {
 }
 
 function verificarEscalera(mano) {
-  var a = mano.obtenerValores().sort(function(a, b){return a-b});
+  var a = mano.obtenerValores();
+  a = a.sort(function(a, b){return a-b});
+  var c = 0;
   var i = 0;
-  for (var j = 0; j < 6; j++) {
-    try {
-      var actual = +a[j];
-      var siguiente = +a[j+1];
-
-      if (actual+1 == siguiente) {
-        i++;
-      }
-    } catch (e) {
+  while ((i < a.length-1) && (c != 4)) {
+    if (a[i]+1 == a[i+1]) {
+      c++;
+    }else if(a[i] != a[i+1]){
+      c = 0;
     }
+    i++;
   }
 
-  if (i >=4 ) {
-    if (a[i] == 14) {
+  if (c == 4 ) {
+    if (a[c] == 14) {
       mano.establecerMano("Escalera Real",10);
     }else if (esMismaFam(mano)) {
       mano.establecerMano("Escalera de color",9);
