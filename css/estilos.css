@@ -11,16 +11,19 @@ body{
 }
 
 #vMenu{
-  position: absolute;
-  top: 30%;
-  left: 25%;
+  position: relative;
+  top: 10em;
+  margin: 0 auto 0 auto;
   text-align: center;
 }
 
 .ulOpciones li{
   display:  inline-block;
-  margin: 3px;
 }
+.ulOpciones li:hover {
+    background-color: rgba(92, 186, 237, 0.4);
+}
+
 
 #vOpciones{
   display: none;
@@ -28,6 +31,7 @@ body{
   background: rgba(0,0,0,0.3);
   margin: 0;
   width: 100%;
+  padding: 0;
 }
 
 .ulOpciones input{
