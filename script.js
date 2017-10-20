@@ -1,12 +1,14 @@
 var vOpciones;
 var vMenu;
 var vJuego;
+var inpDinero;
 var centro;
 var jugadores;
 var baraja;
 var dineroTotal = 0;
 var k = 0;    //k identifica el turno del jugador
 var ronda = 1;
+var ciegaG = 10;
 
 
 function construir() {
@@ -136,31 +138,42 @@ function nuevaCarta(){
   return a;
 }
 
-
-function apostar() {
-  var inpDinero = document.getElementById('inpDinero'); //este es el input de las apuestas
-  var c = document.getElementById('dinero');
-
-  dinero = parseInt(inpDinero.value);
-  if (dinero > jugadores[k].dinero) {
-    alert("No tiene suficiente dinero");
-    return;
-  }
-  jugadores[k].dinero -= dinero;
-  dineroTotal += dinero;               //dineroTotal es el de el centro de la mesa
-  c.innerHTML = "Dinero: "+dineroTotal;
-
+function pasar() {
   verificarRonda();
   actualizarJugadores();
 }
 
-function retirarse() {
-  jugadores.splice(k,1);
-  var ul = document.getElementById('ls');
-  ul.removeChild(ul.childNodes[k]);
-  k--;
+function apostar() {
+  var c = document.getElementById('dinero');
+  dinero = parseInt(inpDinero.value);
+  if (k==0) {
+    ciegaG = 2*dinero;
+  }
+  if (k==1) {
+    dinero = ciegaG;
+  }
+  jugadores[k].dinero -= dinero;
+  dineroTotal += dinero;
+  c.innerHTML = "Dinero: "+dineroTotal;
+  inpDinero.min = ciegaG;
   verificarRonda();
   actualizarJugadores();
+  if (k==1) {
+    apostar();
+  }
+}
+
+function retirarse() {
+  try {
+    jugadores.splice(k,1);
+    var ul = document.getElementById('ls');
+    ul.removeChild(ul.childNodes[k]);
+    k--;
+    verificarRonda();
+    actualizarJugadores();
+  } catch (e) {
+    alert("Se acabo pues");
+  }
 }
 
 function actualizarJugadores() {
@@ -191,8 +204,14 @@ function actualizarJugadores() {
 
 }
 
-
 function mostrarJugador() {
+  if (k!=0) {
+    inpDinero.value = ciegaG;
+    inpDinero.max = jugadores[k].dinero;
+  }else {
+    inpDinero.value = 10;
+    inpDinero.max = 1000;
+  }
   var ul = document.getElementById('ls');
   var radianes = posicionDeJugador();
 
@@ -291,12 +310,7 @@ function mostrar(elemento) {
   elemento.style.display = "block";
 }
 
-function pasar() {
-  verificarRonda();
-  actualizarJugadores();
-  verificarManoGanadora();
-  console.log(jugadores[k].mano.obtenerCartaAlta()+" ,"+jugadores[k].mano.nombre);
-}
+
 
 function verificarRonda() {
   var n = (jugadores.length-1);
@@ -306,29 +320,73 @@ function verificarRonda() {
           var cFlop = flop();
           for (var i = 0; i < jugadores.length; i++) {
             jugadores[i].repartir(cFlop);
+            llenarMano(i);
           }
         break;
       case 2:
           var cTurn = nuevaCarta();
           for (var i = 0; i < jugadores.length; i++) {
             jugadores[i].repartir(cTurn);
+            llenarMano(i);
           }
         break;
       case 3:
           var cRiver = nuevaCarta();
           for (var i = 0; i < jugadores.length; i++) {
             jugadores[i].repartir(cRiver);
+            llenarMano(i);
           }
         break;
       case 4:
-          verificarManoGanadora();
+          var z = verificarGanador();
+          var mano =jugadores[z].mano.nombre;
+          var p = z+1;
+          alert("Felicidades! Jugador "+(p)+ " tienes "+mano+" ganastes : $"+dineroTotal);
         break;
     }
     k=0;
+    ciegaG = 10;
+    inpDinero.min = ciegaG;
     ronda++;
   }else {
     k++;
   }
+}
+
+function verificarGanador() {
+  var max = 0;
+  var z;
+  for (var i = 0; i < jugadores.length; i++) {
+    var actual = jugadores[i].mano.valor;
+    if (actual > max) {
+      z = i;
+      max = actual;
+    }else if (actual == max) {
+      var mActual = jugadores[i].mano;
+      var mMax = jugadores[z].mano;;
+      switch (mActual.valor) {
+        case 1://caso para carta alta
+          if (mActual.obtenerCartaAlta()>mMax.obtenerCartaAlta()) {
+            z=i;
+          }
+          break;
+        case 2://caso para pareja
+
+          break;
+        case 3://caso para pareja doble
+
+          break;
+        case 4://caso para trio
+
+          break;
+        case 5://caso para escalera
+
+          break;
+      }
+    }
+  }
+  return z;
+
 }
 
 function construirVistas() {
@@ -336,19 +394,19 @@ function construirVistas() {
   vJuego = document.getElementById('vJuego');
   vOpciones = document.getElementById('vOpciones');
   centro = document.getElementById('centro');
+  inpDinero = document.getElementById('inpDinero');
 }
 function sombrear(i) {
   var ul = document.getElementsByClassName('jugador'); //los divs que corresponden al jugador
   ul[i].style.boxShadow = "0px 0px 45px rgba(255, 1, 255, 0.8)";
 }
 
-function verificarManoGanadora() {
+function llenarMano(i) {
 
-  var mano = jugadores[k].mano;
+  var mano = jugadores[i].mano;
     if (esMismaFam(mano)) {
     mano.establecerMano("color",6);
     }
-
   cuantasIguales(mano);
   verificarEscalera(mano);
 }
@@ -434,11 +492,8 @@ function cuantasIguales(mano) {
     if (trio && (pares>0)) {
       mano.establecerMano("Full house",7);
     }else if (poker) {
-
-
       mano.establecerMano("Poker",8);
     }
-
 }
 
 
