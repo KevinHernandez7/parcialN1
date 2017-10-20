@@ -75,14 +75,48 @@ function Jugador() {
 }
 Jugador.prototype.repartir = function(aComunes) {
   if (typeof this.mano == "undefined") {
-    this.mano = new Array();
+    this.mano = new Mano();
     for (var i = 0; i < 2; i++) {
-      this.mano.push(sacarCarta());
+      this.mano.cartas.push(sacarCarta());
     }
   }else {
-    this.mano = this.mano.concat(aComunes);
+    this.mano.cartas = this.mano.cartas.concat(aComunes);
   }
 };
+
+function Mano() {
+  this.nombre = "Carta Alta";
+  this.valor = 1;
+  this.cartas = new Array();
+}
+Mano.prototype.obtenerValores = function() {
+  var n = new Array();
+  for (var i = 0; i < this.cartas.length; i++) {
+    n.push(+this.cartas[i].valor);
+  }
+  return n;
+};
+Mano.prototype.obtenerFamilias = function() {
+  var n = new Array();
+  for (var i = 0; i < this.cartas.length; i++) {
+    n.push(this.cartas[i].familia);
+  }
+  return n;
+}
+Mano.prototype.establecerMano = function(sNombre,iValor) {
+  if (typeof this.nombre == "undefined" || typeof this.valor == "undefined") {
+    this.nombre = sNombre;
+    this.valor = iValor;
+  }else if(this.valor < iValor){
+    this.nombre = sNombre;
+    this.valor = iValor;
+  }
+};
+Mano.prototype.obtenerCartaAlta = function() {
+  var a = this.obtenerValores();
+  a = a.sort(function(a, b){return b-a});
+  return a[0];
+}
 
 function flop(){
   var a = new Array();
@@ -93,7 +127,6 @@ function flop(){
   }
   return a;
 }
-
 
 function nuevaCarta(){
   var a = new Array();
@@ -167,7 +200,7 @@ function mostrarJugador() {
   li.setAttribute("class","jugador");
 
   for (var j = 0; j <= 1;j++) {
-    var img = nuevaImagen(jugadores[k].mano[j].obtenerDireccion());
+    var img = nuevaImagen(jugadores[k].mano.cartas[j].obtenerDireccion());
     li.appendChild(img);
   }
   rotar(li,radianes);
@@ -191,7 +224,6 @@ function posicionDeJugador() {
 function rotar(o,fRadianes) {
     o.style.transform = "rotate("+fRadianes+"rad)";   //recibe el objeto a rotar y los grados que se le van a aplicar
 }
-
 function posicionarEnCirculo(o,fRadianes,r,b,a) {
     //objeto,distancia angular,radio,desplazamiento en x,desplazamiento en y
     var x = Math.ceil(r+r*Math.sin(fRadianes));        //equacion para el atributo top
@@ -204,7 +236,6 @@ function posicionarEnCirculo(o,fRadianes,r,b,a) {
 }
 
 
-
 function llenarBaraja() {
   var aBaraja = new Array();
   aBaraja = aBaraja.concat(llenarFamilia("diamantes")); //
@@ -213,7 +244,6 @@ function llenarBaraja() {
   aBaraja = aBaraja.concat(llenarFamilia("espadas"));
   return aBaraja
 }
-
 function sacarCarta() {
   //asigna la cantidad actual de cartas disponibles
   var n = baraja.length;
@@ -225,7 +255,6 @@ function sacarCarta() {
   baraja.splice(indx,1);
   return carta;
 }
-
 
 //funcion para validar solo numeros enteros
 function soloNumeros( evt ){
@@ -258,7 +287,6 @@ function ocultar(elemento) {
   es decir que elimina la visualización y luego la reestablece en linea tomando en cuenta
   que esto es establecido en el CSS*/
 }
-
 function mostrar(elemento) {
   elemento.style.display = "block";
 }
@@ -267,6 +295,7 @@ function pasar() {
   verificarRonda();
   actualizarJugadores();
   verificarManoGanadora();
+  console.log(jugadores[k].mano.obtenerCartaAlta()+" ,"+jugadores[k].mano.nombre);
 }
 
 function verificarRonda() {
@@ -308,7 +337,6 @@ function construirVistas() {
   vOpciones = document.getElementById('vOpciones');
   centro = document.getElementById('centro');
 }
-
 function sombrear(i) {
   var ul = document.getElementsByClassName('jugador'); //los divs que corresponden al jugador
   ul[i].style.boxShadow = "0px 0px 45px rgba(255, 1, 255, 0.8)";
@@ -317,22 +345,66 @@ function sombrear(i) {
 function verificarManoGanadora() {
 
   var mano = jugadores[k].mano;
-  verificarEscalera(mano);
+    if (esMismaFam(mano)) {
+    mano.establecerMano("color",6);
+    }
 
-  if (esMismaFam(mano)) {
-    alert("tienes una familia");
-  }
   cuantasIguales(mano);
+  verificarEscalera(mano);
 }
 
-function cuantasIguales(aMano) {
-    var a = obtenerValores(aMano).sort();
+function verificarEscalera(mano) {
+  var a = mano.obtenerValores();
+  a = a.sort(function(a, b){return a-b});
+  var c = 0;
+  var i = 0;
+  while ((i < a.length-1) && (c != 4)) {
+    if (a[i]+1 == a[i+1]) {
+      c++;
+    }else if(a[i] != a[i+1]){
+      c = 0;
+    }
+    i++;
+  }
+
+  if (c == 4 ) {
+    if (a[c] == 14) {
+      mano.establecerMano("Escalera Real",10);
+    }else if (esMismaFam(mano)) {
+      mano.establecerMano("Escalera de color",9);
+    }else {
+      mano.establecerMano("Escalera",5);
+    }
+  }
+}
+
+function esMismaFam(mano) {
+  var a = mano.obtenerFamilias().sort();
+  var iguales = 0;
+  for (var i = 0; i <= 5; i++) {
+    for (var j = (i+1); j < a.length; j++) {
+      if (a[i] == a[j]) {
+        iguales++;
+      }
+    }
+    if (iguales >= 4) {
+      return true;
+    }else {
+      iguales = 0;
+    }
+  }
+  return false;
+}
+
+function cuantasIguales(mano) {
+    var a = mano.obtenerValores().sort(function(a, b){return a-b});
     var pares = 0;
     var trio = false;
+    var poker = false;
     var iguales;
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i <= 5; i++) {
       iguales = 0;
-      for (var j = (i+1); j < a.length-1; j++) {
+      for (var j = (i+1); j < a.length; j++) {
         if (a[i] == a[j]) {
           iguales++;
         }
@@ -347,79 +419,33 @@ function cuantasIguales(aMano) {
           break;
         case 3:
             trio = false;
-            alert("Tienes un poker");
+            poker = true;
           break;
       }
     }
-    if (pares>0) {
-      alert("Tienes "+pares+" par");
+    if (pares == 1) {
+      mano.establecerMano("Par",2);
     }
-    if (trio) {
-      alert("Tienes un trio");
+    if (pares == 2) {
+      mano.establecerMano("Doble Par",3);
+    }else if (trio) {
+      mano.establecerMano("Trio",4);
+    }
+    if (trio && (pares>0)) {
+      mano.establecerMano("Full house",7);
+    }else if (poker) {
+
+
+      mano.establecerMano("Poker",8);
     }
 
 }
 
 
-function verificarEscalera(aMano) {
-  var a = obtenerValores(aMano).sort();
-  var i = 0;
-  do {
-    try {
-      var actual = a[i];
-      var siguiente = a[i+1];
-    } catch (e) {
-    }
-    i++;
-  } while (actual+1 == siguiente);
 
-  if (i >=5 ) {
-    if (a[i] == 14) {
-      alert("Tienes una escalera real");
-    }else if (esMismaFam(aMano)) {
-      alert("Tienes una escalera de color");
-    }else {
-      alert("Tienes una escalera");
-    }
-  }
-}
-
-function esMismaFam(aMano) {
-  var a = obtenerFamilia(aMano).sort();
-  var iguales = 0;
-  for (var i = 0; i < 5; i++) {
-    for (var j = (i+1); j < (a.length-1); j++) {
-      if (a[i] == a[j]) {
-        iguales++;
-      }
-    }
-    if (iguales >= 4) {
-      return true;
-    }else {
-      iguales = 0;
-    }
-  }
-  return false;
-}
 
 function nuevaImagen(sAtributo) {
   var img = document.createElement("img");
   img.setAttribute("src",sAtributo);
   return img;
-}
-
-function obtenerValores(a) {
-  var n = new Array();
-  for (var i = 0; i < a.length; i++) {
-    n.push(+a[i].valor);
-  }
-  return n;
-}
-
-function obtenerFamilia(a) {
-  var n = new Array();
-  for (var i = 0; i < a.length; i++) {
-    n.push(a[i].familia);
-  }
-  return n;
 }
